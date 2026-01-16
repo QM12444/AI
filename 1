@@ -1,0 +1,51 @@
+import os
+from google import genai
+from google.genai import types
+
+try:
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        raise ValueError("GEMINI_API_KEY environment variable not set.")
+    client = genai.Client(api_key=api_key)
+except Exception as e:
+    print(f"Failed to initialize client: {e}")
+    exit()
+
+
+def main():
+    print("--- Conversation Started (Type 'exit' to quit) ---")
+
+    # 2026 standard for conversation history management
+    chat_history = []
+
+    while True:
+        user_query = input("\nYou: ")
+        if user_query.lower() in ["exit", "quit"]:
+            break
+
+        # --- CORRECTED CODE LINES ---
+        # Build the Part object using the 'text' keyword argument to avoid the bug
+        user_part = types.Part(text=user_query)
+        chat_history.append(types.Content(role="user", parts=[user_part]))
+
+        try:
+            # Generate the response
+            response = client.models.generate_content(
+                model='gemini-2.5-flash',
+                contents=chat_history,
+            )
+
+            # Do the same for the AI's response
+            ai_response_text = response.text
+            ai_part = types.Part(text=ai_response_text)  # Use the direct initializer
+            chat_history.append(types.Content(role="model", parts=[ai_part]))
+            # --- END CORRECTED CODE LINES ---
+
+            print(f"\nAI: {ai_response_text}")
+
+        except Exception as e:
+            print(f"\n[System Error]: {e}")
+
+
+if __name__ == "__main__":
+    main()
