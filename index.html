@@ -1,27 +1,26 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>אפליקציית Round Heart PyScript</title>
-    <!-- טעינת ספריות CSS ו-JS של PyScript -->
+    <title>AI Chat App</title>
     <link rel="stylesheet" href="https://pyscript.net" />
-    <script type="module" src="https://pyscript.net"></script>
-    <style>
-        body { padding: 20px; font-family: sans-serif; }
-        #output-area { margin-top: 15px; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9; }
-    </style>
+    <script defer src="https://pyscript.net"></script>
 </head>
 <body>
-    <h1>אפליקציית PyScript שלי</h1>
-    <p>טוען את הלוגיקה של האפליקציה מקובץ <strong>main.py</strong>...</p>
+    <h1>AI Assistant</h1>
+    
+    <!-- ייבוא קובץ הלוגיקה של הפייתון -->
+    <py-script src="main.py"></py-script>
 
-    <!-- תגית סקריפט זו אומרת ל-PyScript לטעון ולהריץ את קובץ ה-Python הקיים שלך -->
-    <script type="py" src="main.py"></script>
-
-    <h2>פלט:</h2>
-    <!-- כאן יופיעו הודעות ה-print() שלך -->
-    <div id="output-area"></div>
-
+    <!-- תיבת טקסט לקלט המשתמש -->
+    <input type="text" id="user_input" placeholder="שאל את ה-AI משהו..." style="width: 300px; padding: 10px;">
+    
+    <!-- כפתור שקורא לפונקציית הפייתון "send_message" בלחיצה -->
+    <button id="send_button" py-click="send_message()">שלח</button>
+    
+    <!-- אזור הפלט שבו נוצגו ההודעות -->
+    <h2>שיחה:</h2>
+    <div id="chat_output" style="border: 1px solid #ccc; padding: 10px; height: 400px; overflow-y: scroll;">
+        <!-- הודעות ה-AI יופיעו כאן -->
+    </div>
 </body>
 </html>
